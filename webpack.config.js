@@ -8,8 +8,10 @@ module.exports = {
     path: path.resolve(__dirname, "build"),
     clean: true,
   },
-  devtools: "source-map",
-  plugins: [new CopyPlagin({
-    patterns: [{from 'public'}]
-  })],
+  devtool: "source-map",
+  plugins: [
+    new CopyPlagin({
+      patterns: [{ from: "public" }],
+    }),
+  ],
 };
