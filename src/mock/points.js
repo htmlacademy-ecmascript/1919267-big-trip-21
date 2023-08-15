@@ -38,8 +38,7 @@ const destinations = [
     id: 1,
     name: 'Мадрид',
     description: 'столица Испании, признанная одним из красивейших городов мира. И это неудивительно, ведь здесь гармонично сочетаются современная и средневековая архитектура, а парковые комплексы достойны, чтобы по их аллеям совершали променад монаршие особы. Мадрид расположен в центральной части Пиренейского полуострова. “Сердце Испании” по совместительству является административным центром одноимённых провинции и автономного сообщества.',
-    photos: ['https://loremflickr.com/cache/resized/65535_52645222598_463df08994_n_248_152_nofilter.jpg', 'https://loremflickr.com/cache/resized/65535_52991435823_f2f1eecdf2_248_152_nofilter.jpg', 'https://loremflickr.com/cache/resized/5259_5425613383_dd216a7030_n_248_152_nofilter.jpg',
-'https://loremflickr.com/cache/resized/65535_52625217858_fedbb182e4_n_248_152_nofilter.jpg']
+    photos: ['https://loremflickr.com/cache/resized/65535_52645222598_463df08994_n_248_152_nofilter.jpg', 'https://loremflickr.com/cache/resized/65535_52991435823_f2f1eecdf2_248_152_nofilter.jpg', 'https://loremflickr.com/cache/resized/5259_5425613383_dd216a7030_n_248_152_nofilter.jpg','https://loremflickr.com/cache/resized/65535_52625217858_fedbb182e4_n_248_152_nofilter.jpg']
   },
   {
     id: 2,
