@@ -1,37 +1,6 @@
-import { Price } from '../const.js';
-import { OFFERS } from './offers.js';
-import {getRandomArrayElement, getRandomPositiveInteger} from '../utils.js';
-
-const typesList = [
-  {
-    id: 1,
-    title: 'restaurant'
-  }, {
-    id: 2,
-    title: 'bus'
-  }, {
-    id: 3,
-    title: 'train'
-  }, {
-    id: 4,
-    title: 'ship'
-  }, {
-    id: 5,
-    title: 'drive'
-  }, {
-    id: 6,
-    title: 'flight'
-  }, {
-    id: 7,
-    title: 'check-in'
-  }, {
-    id: 8,
-    title: 'sightseeing'
-  }, {
-    id: 9,
-    title: 'taxi'
-  }
-];
+import { Price, TypesList } from '../const.js';
+import { mockOffers } from './offers.js';
+import {getMaxDate, getMinDate, getRandomArrayElement, getRandomPositiveInteger} from '../utils.js';
 
 const destinations = [
   {
@@ -72,63 +41,22 @@ const destinations = [
   }
 ];
 
-const findOffers = (id) => OFFERS.filter((item) => item.typeID === id);
+class MockPoint {
+  constructor() {
+    const date1 = `2023-${getRandomPositiveInteger(1,12)}-${getRandomPositiveInteger(1,30)}T${getRandomPositiveInteger(1,24)}:${getRandomPositiveInteger(1,59)}`;
+    const date2 = `2023-${getRandomPositiveInteger(1,12)}-${getRandomPositiveInteger(1,30)}T${getRandomPositiveInteger(1,24)}:${getRandomPositiveInteger(1,59)}`;
 
-const mockPoints = [
-  {
-    id: 1,
-    basePrice: getRandomPositiveInteger(Price.MIN, Price.MAX),
-    dateFrom: '2019-07-01',
-    dateTo: '2019-07-11',
-    destination: getRandomArrayElement(destinations),
-    isFavorite: false,
-    type: getRandomArrayElement(typesList),
-    offers: findOffers(1)
-  },
-  {
-    id: 2,
-    basePrice: getRandomPositiveInteger(Price.MIN, Price.MAX),
-    dateFrom: '2020-04-01',
-    dateTo: '2020-05-11',
-    destination: getRandomArrayElement(destinations),
-    isFavorite: false,
-    type: getRandomArrayElement(typesList),
-    offers: findOffers(2)
-  },
-  {
-    id: 3,
-    basePrice: getRandomPositiveInteger(Price.MIN, Price.MAX),
-    dateFrom: '2021-12-01',
-    dateTo: '2021-12-02',
-    destination: getRandomArrayElement(destinations),
-    isFavorite: false,
-    type: getRandomArrayElement(typesList),
-    offers: findOffers(3)
-  },
-  {
-    id: 4,
-    basePrice: getRandomPositiveInteger(Price.MIN, Price.MAX),
-    dateFrom: '2022-02-22',
-    dateTo: '2022-02-25',
-    destination: getRandomArrayElement(destinations),
-    isFavorite: false,
-    type: getRandomArrayElement(typesList),
-    offers: findOffers(4)
-  },
-  {
-    id: 5,
-    basePrice: getRandomPositiveInteger(Price.MIN, Price.MAX),
-    dateFrom: '2023-07-01',
-    dateTo: '2023-08-11',
-    destination: getRandomArrayElement(destinations),
-    isFavorite: false,
-    type: getRandomArrayElement(typesList),
-    offers: findOffers(5)
+    this.id = crypto.randomUUID();
+    this.type = getRandomArrayElement(TypesList);
+    this.destination = getRandomArrayElement(destinations);
+    this.dateFrom = getMinDate(date1, date2);
+    this.dateTo = getMaxDate(date1, date2);
+    this.basePrice = getRandomPositiveInteger(Price.MIN, Price.MAX);
+    this.isFavorite = !!(getRandomPositiveInteger(0, 1));
+    this.offers = mockOffers.get(this.type.title);
   }
-];
-
-function getRandomPoint() {
-  return getRandomArrayElement(mockPoints);
 }
 
-export {getRandomPoint};
+const mockPoints = Array.from({length: getRandomPositiveInteger(1, 10)}, () => new MockPoint);
+
+export {mockPoints};
