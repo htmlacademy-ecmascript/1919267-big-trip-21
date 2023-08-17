@@ -1,3 +1,4 @@
+import { DATE_FORMAT } from '../const.js';
 import { createElement } from '../render.js';
 import { formatDate, formatDateToTime, getDuration } from '../utils.js';
 
@@ -14,7 +15,7 @@ function createEventsListItemTemplate(point) {
   return (
     `<li class="trip-events__item">
               <div class="event">
-                <time class="event__date" datetime=${dateFrom}>${formatDate(dateFrom)}</time>
+                <time class="event__date" datetime=${dateFrom}>${formatDate(dateFrom, DATE_FORMAT)}</time>
                 <div class="event__type">
                   <img class="event__type-icon" width="42" height="42" src="img/icons/${type.title}.png" alt="Event type icon">
                 </div>
@@ -32,7 +33,7 @@ function createEventsListItemTemplate(point) {
                 </p>
                 <h4 class="visually-hidden">Offers:</h4>
                 <ul class="event__selected-offers">
-                  ${offers.map((offer) => createOfferTemplate(offer))}
+                  ${offers.length !== 0 && offers.map((offer) => createOfferTemplate(offer))}
                 </ul>
                 <button class="event__favorite-btn ${isFavorite ? 'event__favorite-btn--active' : ''}" type="button">
                   <span class="visually-hidden">Add to favorite</span>

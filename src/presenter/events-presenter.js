@@ -7,7 +7,6 @@ import EventsListItemView from '../view/events-list-item-view.js';
 export default class EventsPresenter {
   tripSortComponent = new TripSortView();
   eventsListComponent = new EventsListView();
-  eventEditComponent = new EventEditView();
 
   constructor({tripEventsBoardContainer, pointsModel}) {
     this.tripEventsBoardContainer = tripEventsBoardContainer;
@@ -18,7 +17,7 @@ export default class EventsPresenter {
     this.points = [...this.pointsModel.getPoints()];
     render(this.tripSortComponent, this.tripEventsBoardContainer);
     render(this.eventsListComponent, this.tripEventsBoardContainer);
-    render(this.eventEditComponent, this.eventsListComponent.getElement(), RenderPosition.AFTERBEGIN);
+    render(new EventEditView({point: this.points[0]}), this.eventsListComponent.getElement(), RenderPosition.AFTERBEGIN);
 
     for (let i = 0; i < this.points.length; i++) {
       render(new EventsListItemView({point: this.points[i]}), this.eventsListComponent.getElement());

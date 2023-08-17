@@ -1,6 +1,6 @@
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
-import {DATE_FORMAT, TIME_FORMAT} from './const.js';
+import {TIME_FORMAT} from './const.js';
 
 function getRandomArrayElement(items) {
   return items[Math.floor(Math.random() * items.length)];
@@ -22,8 +22,8 @@ function getMaxDate(date1, date2) {
   return dayjs.max(dayjs(), dayjs(date1), dayjs(date2));
 }
 
-function formatDate(date) {
-  return date ? dayjs(date).format(DATE_FORMAT) : '';
+function formatDate(date, dateFormat) {
+  return date ? dayjs(date).format(dateFormat) : '';
 }
 
 function formatDateToTime(date) {

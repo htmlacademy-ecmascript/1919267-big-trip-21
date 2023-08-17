@@ -34,7 +34,20 @@ const TypesList = [
   }
 ];
 
+const BLANK_POINT = {
+  id: crypto.randomUUID(),
+  type: '',
+  destination: '',
+  dateFrom: null,
+  dateTo: null,
+  basePrice: 0,
+  isFavorite: false,
+  offers: []
+};
+
 const DATE_FORMAT = 'MMM DD';
+const EDIT_FORM_DATE_FORMAT = 'DD/MM/YY hh:mm';
+
 const TIME_FORMAT = 'HH:mm';
 
-export {Price, TypesList, DATE_FORMAT, TIME_FORMAT};
+export {Price, TypesList, DATE_FORMAT, EDIT_FORM_DATE_FORMAT, TIME_FORMAT, BLANK_POINT};
