@@ -1,4 +1,4 @@
-import { DATE_FORMAT } from '../const.js';
+import { DateFormat } from '../const.js';
 import { createElement } from '../render.js';
 import { formatDate, formatDateToTime, getDuration } from '../utils.js';
 
@@ -15,16 +15,16 @@ function createEventsListItemTemplate(point) {
   return (
     `<li class="trip-events__item">
               <div class="event">
-                <time class="event__date" datetime=${dateFrom}>${formatDate(dateFrom, DATE_FORMAT)}</time>
+                <time class="event__date" datetime=${dateFrom}>${formatDate(dateFrom, DateFormat.SHORT_DATE)}</time>
                 <div class="event__type">
-                  <img class="event__type-icon" width="42" height="42" src="img/icons/${type.title}.png" alt="Event type icon">
+                  <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
                 </div>
-                <h3 class="event__title">${type.title} ${destination.name}</h3>
+                <h3 class="event__title">${type} ${destination.name}</h3>
                 <div class="event__schedule">
                   <p class="event__time">
-                    <time class="event__start-time" datetime=${dateFrom}>${formatDateToTime(dateFrom)}</time>
+                    <time class="event__start-time" datetime=${dateFrom}>${formatDate(dateFrom, DateFormat.TIME)}</time>
                     &mdash;
-                    <time class="event__end-time" datetime=${dateTo}>${formatDateToTime(dateTo)}</time>
+                    <time class="event__end-time" datetime=${dateTo}>${formatDate(dateTo, DateFormat.TIME)}</time>
                   </p>
                   <p class="event__duration">${getDuration(dateFrom, dateTo)}</p>
                 </div>
@@ -33,7 +33,7 @@ function createEventsListItemTemplate(point) {
                 </p>
                 <h4 class="visually-hidden">Offers:</h4>
                 <ul class="event__selected-offers">
-                  ${offers.length !== 0 && offers.map((offer) => createOfferTemplate(offer))}
+                  ${offers.length && offers.map((offer) => createOfferTemplate(offer)).join('')}
                 </ul>
                 <button class="event__favorite-btn ${isFavorite ? 'event__favorite-btn--active' : ''}" type="button">
                   <span class="visually-hidden">Add to favorite</span>

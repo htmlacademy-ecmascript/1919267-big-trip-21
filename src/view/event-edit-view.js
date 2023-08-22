@@ -1,4 +1,4 @@
-import { BLANK_POINT, EDIT_FORM_DATE_FORMAT } from '../const.js';
+import { BLANK_POINT, DateFormat } from '../const.js';
 import { formatDate } from '../utils.js';
 import { createElement } from '../render.js';
 
@@ -23,7 +23,7 @@ function createEventEditTemplate(point) {
                   <div class="event__type-wrapper">
                     <label class="event__type  event__type-btn" for="event-type-toggle-1">
                       <span class="visually-hidden">Choose event type</span>
-                      <img class="event__type-icon" width="17" height="17" src="img/icons/${type.title}.png" alt="Event type icon">
+                      <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
                     </label>
                     <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
@@ -81,7 +81,7 @@ function createEventEditTemplate(point) {
 
                   <div class="event__field-group  event__field-group--destination">
                     <label class="event__label  event__type-output" for="event-destination-1">
-                      ${type.title}
+                      ${type}
                     </label>
                     <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value=${destination.name} list="destination-list-1">
                     <datalist id="destination-list-1">
@@ -93,10 +93,10 @@ function createEventEditTemplate(point) {
 
                   <div class="event__field-group  event__field-group--time">
                     <label class="visually-hidden" for="event-start-time-1">From</label>
-                    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value=${formatDate(dateFrom, EDIT_FORM_DATE_FORMAT)}>
+                    <input class="event__input  event__input--time" id="event-start-time-1" type="text" name="event-start-time" value=${formatDate(dateFrom, DateFormat.DATE_AND_TIME)}>
                     &mdash;
                     <label class="visually-hidden" for="event-end-time-1">To</label>
-                    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value=${formatDate(dateTo, EDIT_FORM_DATE_FORMAT)}>
+                    <input class="event__input  event__input--time" id="event-end-time-1" type="text" name="event-end-time" value=${formatDate(dateTo, DateFormat.DATE_AND_TIME)}>
                   </div>
 
                   <div class="event__field-group  event__field-group--price">
@@ -118,7 +118,7 @@ function createEventEditTemplate(point) {
                     <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
                     <div class="event__available-offers">
-                    ${offers.length !== 0 && offers.map((offer) => createOfferTemplate(offer))}
+                    ${offers.length && offers.map((offer) => createOfferTemplate(offer)).join('')}
                     </div>
 
                   </section>
