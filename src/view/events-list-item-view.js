@@ -1,6 +1,6 @@
 import { DateFormat } from '../const.js';
-import { createElement } from '../render.js';
-import { formatDate, formatDateToTime, getDuration } from '../utils.js';
+import AbstractView from '../framework/view/abstract-view.js';
+import { formatDate, getDuration } from '../utils.js';
 
 function createOfferTemplate(offer) {
   return `<li class="event__offer">
@@ -49,23 +49,14 @@ function createEventsListItemTemplate(point) {
   );
 }
 
-export default class EventsListItemView {
+export default class EventsListItemView extends AbstractView {
+  #point = null;
   constructor ({point}) {
-    this.point = point;
+    super();
+    this.#point = point;
   }
 
-  getTemplate() {
-    return createEventsListItemTemplate(this.point);
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
+  get template() {
+    return createEventsListItemTemplate(this.#point);
   }
 }

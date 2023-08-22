@@ -22,8 +22,4 @@ const DateFormat = {
   TIME: 'HH:mm',
 };
 
-const MinutesInTime = {
-  BASE_MIN: 60,
-};
-
 export {Price, types, DateFormat, BLANK_POINT};

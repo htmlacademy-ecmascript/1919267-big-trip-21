@@ -1,6 +1,6 @@
 import { BLANK_POINT, DateFormat } from '../const.js';
 import { formatDate } from '../utils.js';
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 function createOfferTemplate(offer) {
   return `<div class="event__offer-selector">
@@ -138,23 +138,15 @@ function createEventEditTemplate(point) {
   );
 }
 
-export default class EventEditView {
+export default class EventEditView extends AbstractView {
+  #point = null;
+
   constructor ({point = BLANK_POINT}) {
-    this.point = point;
+    super();
+    this.#point = point;
   }
 
-  getTemplate() {
-    return createEventEditTemplate(this.point);
-  }
-
-  getElement() {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-    return this.element;
-  }
-
-  removeElement() {
-    this.element = null;
+  get template() {
+    return createEventEditTemplate(this.#point);
   }
 }
