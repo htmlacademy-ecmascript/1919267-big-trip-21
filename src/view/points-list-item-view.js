@@ -10,7 +10,7 @@ function createOfferTemplate(offer) {
   </li>`;
 }
 
-function createEventsListItemTemplate(point) {
+function createPointsListItemTemplate(point) {
   const {type, destination, basePrice, dateFrom, dateTo, isFavorite, offers} = point;
   return (
     `<li class="trip-events__item">
@@ -49,7 +49,7 @@ function createEventsListItemTemplate(point) {
   );
 }
 
-export default class EventsListItemView extends AbstractView {
+export default class PointsListItemView extends AbstractView {
   #point = null;
   constructor ({point}) {
     super();
@@ -57,6 +57,6 @@ export default class EventsListItemView extends AbstractView {
   }
 
   get template() {
-    return createEventsListItemTemplate(this.#point);
+    return createPointsListItemTemplate(this.#point);
   }
 }

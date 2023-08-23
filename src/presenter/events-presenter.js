@@ -1,26 +1,34 @@
 import {render} from '../framework/render.js';
-import EventsListView from '../view/events-list-view.js';
-import TripSortView from '../view/trip-sort-view.js';
+import PointsListView from '../view/points-list-view.js';
+import PointSortView from '../view/point-sort-view.js';
 import EventEditView from '../view/event-edit-view.js';
-import EventsListItemView from '../view/events-list-item-view.js';
+import PointsListItemView from '../view/points-list-item-view.js';
 
 export default class EventsPresenter {
-  tripSortComponent = new TripSortView();
-  eventsListComponent = new EventsListView();
+  #pointsModel = null;
+  #points = [];
+  #pointsBoardContainer = null;
+  #pointSortComponent = new PointSortView();
+  #pointsListComponent = new PointsListView();
 
-  constructor({tripEventsBoardContainer, pointsModel}) {
-    this.tripEventsBoardContainer = tripEventsBoardContainer;
-    this.pointsModel = pointsModel;
+  constructor({pointsBoardContainer, pointsModel}) {
+    this.#pointsBoardContainer = pointsBoardContainer;
+    this.#pointsModel = pointsModel;
   }
 
   init() {
-    this.points = [...this.pointsModel.getPoints()];
-    render(this.tripSortComponent, this.tripEventsBoardContainer);
-    render(this.eventsListComponent, this.tripEventsBoardContainer);
-    render(new EventEditView({point: this.points[0]}), this.eventsListComponent.element);
+    this.#points = [...this.#pointsModel.points];
+    render(this.#pointSortComponent, this.#pointsBoardContainer);
+    render(this.#pointsListComponent, this.#pointsBoardContainer);
+    render(new EventEditView({point: this.#points[0]}), this.#pointsListComponent.element);
 
-    for (let i = 0; i < this.points.length; i++) {
-      render(new EventsListItemView({point: this.points[i]}), this.eventsListComponent.element);
+    for (let i = 0; i < this.#points.length; i++) {
+      this.#renderPoint(this.#points[i]);
     }
+  }
+
+  #renderPoint(point) {
+    const pointComponent = new PointsListItemView({point});
+    render(pointComponent, this.#pointsListComponent.element);
   }
 }
