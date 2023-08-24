@@ -13,7 +13,7 @@ function createOfferTemplate(offer) {
 </div>`;
 }
 
-function createEventEditTemplate(point) {
+function createPointEditTemplate(point) {
   const {type, destination, dateFrom, dateTo, basePrice, offers} = point;
 
   return (
@@ -138,15 +138,31 @@ function createEventEditTemplate(point) {
   );
 }
 
-export default class EventEditView extends AbstractView {
+export default class PointEditView extends AbstractView {
   #point = null;
+  #handleFormSubmit = null;
+  #handleArrowClick = null;
 
-  constructor ({point = BLANK_POINT}) {
+  constructor ({point = BLANK_POINT, onFormSubmit, onArrowClick}) {
     super();
     this.#point = point;
+    this.#handleFormSubmit = onFormSubmit;
+    this.#handleArrowClick = onArrowClick;
+    this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#arrowClickHandler);
   }
 
   get template() {
-    return createEventEditTemplate(this.#point);
+    return createPointEditTemplate(this.#point);
   }
+
+  #formSubmitHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleFormSubmit();
+  };
+
+  #arrowClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleArrowClick();
+  };
 }

@@ -51,12 +51,21 @@ function createPointsListItemTemplate(point) {
 
 export default class PointsListItemView extends AbstractView {
   #point = null;
-  constructor ({point}) {
+  #handleArrowClick = null;
+
+  constructor ({point, onArrowClick}) {
     super();
     this.#point = point;
+    this.#handleArrowClick = onArrowClick;
+    this.element.addEventListener('click', this.#arrowClickHandler);
   }
 
   get template() {
     return createPointsListItemTemplate(this.#point);
   }
+
+  #arrowClickHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleArrowClick();
+  };
 }
