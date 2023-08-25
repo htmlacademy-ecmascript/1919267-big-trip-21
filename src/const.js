@@ -22,4 +22,23 @@ const DateFormat = {
   TIME: 'HH:mm',
 };
 
-export {Price, types, DateFormat, BLANK_POINT};
+const FilterType = {
+  EVERYTHING: {
+    title: 'everything',
+    message: 'Click New Event to create your first point'
+  },
+  FUTURE: {
+    title: 'future',
+    messaage: 'There are no future events now'
+  },
+  PRESENT: {
+    title: 'present',
+    message: 'There are no present events now'
+  },
+  PAST: {
+    title: 'past',
+    message: 'There are no past events now'
+  },
+};
+
+export {Price, types, DateFormat, BLANK_POINT, FilterType};
