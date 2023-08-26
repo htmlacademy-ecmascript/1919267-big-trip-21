@@ -1,4 +1,4 @@
-import { Price, TypesList } from '../const.js';
+import { Price, types } from '../const.js';
 import { mockOffers } from './offers.js';
 import {getMaxDate, getMinDate, getRandomArrayElement, getRandomPositiveInteger} from '../utils.js';
 
@@ -47,13 +47,13 @@ class MockPoint {
     const date2 = `2023-${getRandomPositiveInteger(1,12)}-${getRandomPositiveInteger(1,30)}T${getRandomPositiveInteger(1,24)}:${getRandomPositiveInteger(1,59)}`;
 
     this.id = crypto.randomUUID();
-    this.type = getRandomArrayElement(TypesList);
+    this.type = getRandomArrayElement(types);
     this.destination = getRandomArrayElement(destinations);
     this.dateFrom = getMinDate(date1, date2);
     this.dateTo = getMaxDate(date1, date2);
     this.basePrice = getRandomPositiveInteger(Price.MIN, Price.MAX);
-    this.isFavorite = !!(getRandomPositiveInteger(0, 1));
-    this.offers = mockOffers.get(this.type.title);
+    this.isFavorite = Boolean(getRandomPositiveInteger(0, 1));
+    this.offers = mockOffers.get(this.type);
   }
 }
 

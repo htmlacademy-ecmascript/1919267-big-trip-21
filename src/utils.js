@@ -1,6 +1,64 @@
 import dayjs from 'dayjs';
 import minMax from 'dayjs/plugin/minMax';
-import {TIME_FORMAT} from './const.js';
+import durationPlugin from 'dayjs/plugin/duration';
+
+dayjs.extend(minMax);
+dayjs.extend(durationPlugin);
+
+/**
+ * Функция, возвращающая минимальную дату
+ * @param {dayjs.ConfigType} date1
+ * @param {dayjs.ConfigType} date2
+ * @returns {dayjs.ConfigType}
+ */
+
+function getMinDate(date1, date2) {
+  return dayjs.min(dayjs(), dayjs(date1), dayjs(date2));
+}
+
+/**
+ * Функция, возвращающая максимальную дату
+ * @param {dayjs.ConfigType} date1
+ * @param {dayjs.ConfigType} date2
+ * @returns {dayjs.ConfigType}
+ */
+
+function getMaxDate(date1, date2) {
+  return dayjs.max(dayjs(), dayjs(date1), dayjs(date2));
+}
+/**
+ * Функция, возвращающая отформатированную дату
+ * @param {dayjs.ConfigType} date
+ * @param {string} dateFormat
+ * @returns {string}
+ */
+
+function formatDate(date, dateFormat) {
+  return date ? dayjs(date).format(dateFormat) : '';
+}
+
+/**
+ * Функция, возвращающая длительность события
+ * @param {dayjs.ConfigType} dateFrom
+ * @param {dayjs.ConfigType} dateTo
+ * @returns {string}
+ */
+
+function getDuration(valueFrom, valueTo){
+  const ms = dayjs(valueTo).diff(valueFrom);
+  const duration = dayjs.duration(ms);
+
+  if (duration.days()){
+    return duration.format('DD[d] HH[h] mm[m]');
+  }
+
+  if (duration.hours()){
+    return duration.format('HH[h] mm[m]');
+  }
+
+  return duration.format('mm[m]');
+}
+
 
 function getRandomArrayElement(items) {
   return items[Math.floor(Math.random() * items.length)];
@@ -13,42 +71,4 @@ function getRandomPositiveInteger(a, b) {
   return Math.floor(result);
 }
 
-function getMinDate(date1, date2) {
-  dayjs.extend(minMax);
-  return dayjs.min(dayjs(), dayjs(date1), dayjs(date2));
-}
-function getMaxDate(date1, date2) {
-  dayjs.extend(minMax);
-  return dayjs.max(dayjs(), dayjs(date1), dayjs(date2));
-}
-
-function formatDate(date, dateFormat) {
-  return date ? dayjs(date).format(dateFormat) : '';
-}
-
-function formatDateToTime(date) {
-  return date ? dayjs(date).format(TIME_FORMAT) : '';
-}
-
-function getDuration(dateFrom, dateTo) {
-  const startDate = dayjs(dateFrom);
-  const endDate = dayjs(dateTo);
-  const differenceInMinutes = endDate.diff(startDate, 'minute');
-
-  const years = Math.floor(differenceInMinutes / 525960);
-  const months = Math.floor(differenceInMinutes % 525960 / 43800);
-  const days = Math.floor(differenceInMinutes % 43800 / 1440);
-  const hours = Math.floor(differenceInMinutes % 1440 / 60);
-  const minutes = Math.floor(differenceInMinutes % 60 / 1);
-
-  let message = '';
-  message += (years > 0) ? `${years}Y ` : '';
-  message += (months > 0) ? `${months}M ` : '';
-  message += (days > 0) ? `${days}D ` : '';
-  message += (hours > 0) ? `${hours}H ` : '';
-  message += (minutes > 0) ? `${minutes}M` : '';
-
-  return message;
-}
-
-export {getRandomArrayElement, getRandomPositiveInteger, getMinDate, getMaxDate, formatDate, formatDateToTime, getDuration};
+export {getRandomArrayElement, getRandomPositiveInteger, getMinDate, getMaxDate, formatDate, getDuration};

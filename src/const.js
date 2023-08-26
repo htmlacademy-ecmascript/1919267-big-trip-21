@@ -3,36 +3,7 @@ const Price = {
   MAX: 10000,
 };
 
-const TypesList = [
-  {
-    id: 1,
-    title: 'restaurant'
-  }, {
-    id: 2,
-    title: 'bus'
-  }, {
-    id: 3,
-    title: 'train'
-  }, {
-    id: 4,
-    title: 'ship'
-  }, {
-    id: 5,
-    title: 'drive'
-  }, {
-    id: 6,
-    title: 'flight'
-  }, {
-    id: 7,
-    title: 'check-in'
-  }, {
-    id: 8,
-    title: 'sightseeing'
-  }, {
-    id: 9,
-    title: 'taxi'
-  }
-];
+const types = ['restaurant', 'bus', 'train', 'ship', 'drive', 'flight', 'check-in', 'sightseeing', 'taxi'];
 
 const BLANK_POINT = {
   id: crypto.randomUUID(),
@@ -45,9 +16,29 @@ const BLANK_POINT = {
   offers: []
 };
 
-const DATE_FORMAT = 'MMM DD';
-const EDIT_FORM_DATE_FORMAT = 'DD/MM/YY hh:mm';
+const DateFormat = {
+  SHORT_DATE: 'MMM DD',
+  DATE_AND_TIME: 'DD/MM/YY[&nbsp;]hh:mm',
+  TIME: 'HH:mm',
+};
 
-const TIME_FORMAT = 'HH:mm';
+const FilterType = {
+  EVERYTHING: {
+    title: 'everything',
+    message: 'Click New Event to create your first point'
+  },
+  FUTURE: {
+    title: 'future',
+    messaage: 'There are no future events now'
+  },
+  PRESENT: {
+    title: 'present',
+    message: 'There are no present events now'
+  },
+  PAST: {
+    title: 'past',
+    message: 'There are no past events now'
+  },
+};
 
-export {Price, TypesList, DATE_FORMAT, EDIT_FORM_DATE_FORMAT, TIME_FORMAT, BLANK_POINT};
+export {Price, types, DateFormat, BLANK_POINT, FilterType};
