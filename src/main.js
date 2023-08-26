@@ -1,8 +1,8 @@
 import PointsPresenter from './presenter/points-presenter.js';
 import { render, RenderPosition} from './framework/render.js';
-import FiltersView from './view/filters-view.js';
 import TripInfoView from './view/trip-info-view.js';
 import PointsModel from './model/points-model.js';
+import FiltersPresenter from './presenter/filters-presenter.js';
 
 const tripMainContainer = document.querySelector('.trip-main');
 const pointsBoardContainer = document.querySelector('.trip-events');
@@ -12,7 +12,8 @@ const eventsBoardPresenter = new PointsPresenter({
   pointsBoardContainer,
   pointsModel
 });
+const filtersPresenter = new FiltersPresenter(filtersContainer);
 
 render(new TripInfoView(), tripMainContainer, RenderPosition.AFTERBEGIN);
-render(new FiltersView(), filtersContainer);
 eventsBoardPresenter.init();
+filtersPresenter.init();
