@@ -20,7 +20,7 @@ export default class PointsPresenter {
   init() {
     this.#points = [...this.#pointsModel.points];
 
-    if(this.#points.length === 0) {
+    if(!this.#points.length) {
       render(new PointsListEmptyView(), this.#pointsBoardContainer);
       return;
     }
@@ -37,8 +37,7 @@ export default class PointsPresenter {
     const escKeyDownHandler = (evt) => {
       if (evt.key === 'Escape') {
         evt.preventDefault();
-        replaceFormToCard();
-        document.removeEventListener('keydown', escKeyDownHandler);
+        getBackToCardDisplay();
       }
     };
 
@@ -52,15 +51,14 @@ export default class PointsPresenter {
 
     const pointEditComponent = new PointEditView({
       point,
-      onFormSubmit: () => {
-        replaceFormToCard();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      },
-      onArrowClick: () => {
-        replaceFormToCard();
-        document.removeEventListener('keydown', escKeyDownHandler);
-      }
+      onFormSubmit: () => getBackToCardDisplay(),
+      onArrowClick: () => getBackToCardDisplay()
     });
+
+    function getBackToCardDisplay() {
+      replaceFormToCard();
+      document.removeEventListener('keydown', escKeyDownHandler);
+    }
 
     function replaceCardToForm() {
       replace(pointEditComponent, pointComponent);

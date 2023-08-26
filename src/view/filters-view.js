@@ -9,7 +9,8 @@ function createFilterItemTemplate(filterTitle) {
 
 function createFiltersFormTemplate(filters) {
   return `<form class="trip-filters" action="#" method="get">
-    ${filters.length && filters.map((filter) => createFilterItemTemplate(filter)).join('')}
+  ${filters.length && filters.reduce((acc, item) => acc + createFilterItemTemplate(item), [])}
+
     <button class="visually-hidden" type="submit">Accept filter</button>
     </form>`;
 }
