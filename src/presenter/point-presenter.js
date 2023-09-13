@@ -9,11 +9,13 @@ export default class PointPresenter {
   #pointEditComponent = null;
   #point = null;
   #handleDataChange = null;
+  #handleModeChange = null;
   #mode = Mode.DEFAULT;
 
-  constructor({pointsListContainer, onDataChange}) {
+  constructor({pointsListContainer, onDataChange, onModeChange}) {
     this.#pointsListContainer = pointsListContainer;
     this.#handleDataChange = onDataChange;
+    this.#handleModeChange = onModeChange;
   }
 
   init(point) {
@@ -83,6 +85,7 @@ export default class PointPresenter {
 
   #replaceCardToForm = () => {
     replace(this.#pointEditComponent, this.#pointComponent);
+    this.#handleModeChange();
     this.#mode = Mode.EDIT;
   };
 
