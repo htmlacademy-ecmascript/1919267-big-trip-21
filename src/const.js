@@ -41,4 +41,9 @@ const FilterType = {
   },
 };
 
-export {Price, types, DateFormat, BLANK_POINT, FilterType};
+const Mode = {
+  DEFAULT: 'default',
+  EDIT: 'edit'
+};
+
+export {Price, types, DateFormat, BLANK_POINT, FilterType, Mode};

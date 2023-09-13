@@ -1,5 +1,5 @@
 import { BLANK_POINT, DateFormat } from '../const.js';
-import { formatDate } from '../utils.js';
+import { formatDate } from '../utils/common.js';
 import AbstractView from '../framework/view/abstract-view.js';
 
 function createOfferTemplate(offer) {

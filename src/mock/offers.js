@@ -1,4 +1,4 @@
-import { getRandomPositiveInteger } from '../utils.js';
+import { getRandomPositiveInteger } from '../utils/common.js';
 
 const OFFERS = [
   ['taxi',
