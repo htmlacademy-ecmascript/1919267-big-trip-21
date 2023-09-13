@@ -1,6 +1,6 @@
 import { Price, types } from '../const.js';
 import { mockOffers } from './offers.js';
-import {getMaxDate, getMinDate, getRandomArrayElement, getRandomPositiveInteger} from '../utils.js';
+import {getMaxDate, getMinDate, getRandomArrayElement, getRandomPositiveInteger} from '../utils/common.js';
 
 const destinations = [
   {
