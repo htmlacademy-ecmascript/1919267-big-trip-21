@@ -1,4 +1,3 @@
-import { FilterType } from '../const.js';
 import { render } from '../framework/render.js';
 import FiltersView from '../view/filters-view.js';
 
@@ -6,10 +5,10 @@ export default class FiltersPresenter {
   #container = null;
   #filters = [];
 
-  constructor(container) {
+  constructor({container, filterTypes}) {
     this.#container = container;
 
-    this.#filters = Object.keys(FilterType);
+    this.#filters = filterTypes;
   }
 
   init() {

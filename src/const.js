@@ -22,28 +22,46 @@ const DateFormat = {
   TIME: 'HH:mm',
 };
 
-const FilterType = {
-  EVERYTHING: {
+const FILTER_TYPES = [
+  {
     title: 'everything',
     message: 'Click New Event to create your first point'
   },
-  FUTURE: {
+  {
     title: 'future',
     messaage: 'There are no future events now'
   },
-  PRESENT: {
+  {
     title: 'present',
     message: 'There are no present events now'
   },
-  PAST: {
+  {
     title: 'past',
     message: 'There are no past events now'
   },
-};
+];
 
 const Mode = {
   DEFAULT: 'default',
   EDIT: 'edit'
 };
 
-export {Price, types, DateFormat, BLANK_POINT, FilterType, Mode};
+const SortType = {
+  DAY: 'day',
+  EVENT: 'event',
+  TIME: 'time',
+  PRICE: 'price',
+  OFFERS: 'offers'
+};
+
+const availableSortType = {
+  [SortType.DAY]: true,
+  [SortType.EVENT]: false,
+  [SortType.TIME]: true,
+  [SortType.PRICE]: true,
+  [SortType.OFFERS]: false
+};
+
+const DEFAULT_SORT_TYPE = SortType.DAY;
+
+export {Price, types, DateFormat, BLANK_POINT, FILTER_TYPES, Mode, SortType, availableSortType, DEFAULT_SORT_TYPE};
