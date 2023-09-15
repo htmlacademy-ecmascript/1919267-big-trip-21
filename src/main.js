@@ -3,7 +3,6 @@ import {render, RenderPosition} from './framework/render.js';
 import TripInfoView from './view/trip-info-view.js';
 import PointsModel from './model/points-model.js';
 import FiltersPresenter from './presenter/filters-presenter.js';
-import { FILTER_TYPES } from './const.js';
 
 const tripMainContainer = document.querySelector('.trip-main');
 const pointsBoardContainer = document.querySelector('.trip-events');
@@ -13,7 +12,10 @@ const eventsBoardPresenter = new BoardPresenter({
   pointsBoardContainer,
   pointsModel
 });
-const filtersPresenter = new FiltersPresenter({filtersContainer, FILTER_TYPES});
+const filtersPresenter = new FiltersPresenter({
+  container: filtersContainer,
+  pointsModel
+});
 
 render(new TripInfoView(), tripMainContainer, RenderPosition.AFTERBEGIN);
 eventsBoardPresenter.init();

@@ -8,13 +8,4 @@ const filter = {
   [FilterType.PRESENT]: (points) => points.filter((point) => isPointPresent(point))
 };
 
-function generateFilter() {
-  return Object.keys(filter).map(
-    (filterType, index) => ({
-      type: filterType,
-      isChecked: index === 0
-    })
-  );
-}
-
-export {generateFilter};
+export {filter};
