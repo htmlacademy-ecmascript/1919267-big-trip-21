@@ -132,6 +132,12 @@ export default class PointEditView extends AbstractStatefulView {
     return { ...state };
   }
 
+  reset(point) {
+    this.updateElement(
+      PointEditView.parsePointToState(point)
+    );
+  }
+
   _restoreHandlers() {
     this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmitHandler);
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#arrowClickHandler);
