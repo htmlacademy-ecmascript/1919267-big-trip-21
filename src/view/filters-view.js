@@ -1,9 +1,16 @@
 import AbstractView from '../framework/view/abstract-view.js';
 
-function createFilterItemTemplate(filterTitle) {
+function createFilterItemTemplate({type}) {
   return `<div class="trip-filters__filter">
-  <input id="filter-${filterTitle}" class="trip-filters__filter-input  visually-hidden" type="radio" name="trip-filter" value=${filterTitle}>
-  <label class="trip-filters__filter-label" for="filter-${filterTitle}">${filterTitle}</label>
+  <input
+    id="filter-${type}"
+    class="trip-filters__filter-input  visually-hidden"
+    type="radio"
+    name="trip-filter"
+    value=${type}
+    data-filter-type="${type}"
+  />
+  <label class="trip-filters__filter-label" for="filter-${type}">${type}</label>
 </div>`;
 }
 
@@ -17,12 +24,25 @@ function createFiltersFormTemplate(filters) {
 
 export default class FiltersView extends AbstractView {
   #filters = [];
-  constructor(filters) {
+  #handleFilterTypeChange = null;
+
+  constructor({filters, onFilterTypeChange}) {
     super();
     this.#filters = filters;
+    this.#handleFilterTypeChange = onFilterTypeChange;
+
+    this.element.addEventListener('click', this.#sortTypeChangeHandler);
   }
 
   get template() {
     return createFiltersFormTemplate(this.#filters);
   }
+
+  #sortTypeChangeHandler = (evt) => {
+    if (evt.target.tagName !== 'INPUT') {
+      return;
+    }
+
+    this.#handleFilterTypeChange(evt.target.dataset.filterType);
+  };
 }

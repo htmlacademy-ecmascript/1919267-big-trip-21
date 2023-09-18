@@ -12,7 +12,10 @@ const eventsBoardPresenter = new BoardPresenter({
   pointsBoardContainer,
   pointsModel
 });
-const filtersPresenter = new FiltersPresenter(filtersContainer);
+const filtersPresenter = new FiltersPresenter({
+  container: filtersContainer,
+  pointsModel
+});
 
 render(new TripInfoView(), tripMainContainer, RenderPosition.AFTERBEGIN);
 eventsBoardPresenter.init();
