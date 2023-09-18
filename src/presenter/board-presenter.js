@@ -58,7 +58,7 @@ export default class BoardPresenter {
       .map((type) => ({
         type,
         isDisabled: !availableSortType[type],
-        isChecked: (type === this.#currentSortType)
+        isChecked: type === this.#currentSortType
       }));
 
     const prevSortComponent = this.#pointSortComponent;
