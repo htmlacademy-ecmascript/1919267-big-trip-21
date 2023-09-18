@@ -117,13 +117,7 @@ export default class PointEditView extends AbstractStatefulView {
     this.#handleFormSubmit = onFormSubmit;
     this.#handleArrowClick = onArrowClick;
     this.#handleDeleteClick = onDeleteButtonClick;
-    this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmitHandler);
-    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#arrowClickHandler);
-    this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeChangeHandler);
-    this.element.querySelector('.event__input--destination').addEventListener('change', this.#eventDestinationChangeHandler);
-    this.element.querySelector('.event__input--price')
-      .addEventListener('input', this.#priceInputChangeHandler);
-    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#pointDeleteClickHandler);
+    this._restoreHandlers();
   }
 
   get template() {
@@ -136,6 +130,16 @@ export default class PointEditView extends AbstractStatefulView {
 
   static parseStateToPoint(state) {
     return { ...state };
+  }
+
+  _restoreHandlers() {
+    this.element.querySelector('.event--edit').addEventListener('submit', this.#formSubmitHandler);
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#arrowClickHandler);
+    this.element.querySelector('.event__type-group').addEventListener('change', this.#eventTypeChangeHandler);
+    this.element.querySelector('.event__input--destination').addEventListener('change', this.#eventDestinationChangeHandler);
+    this.element.querySelector('.event__input--price')
+      .addEventListener('input', this.#priceInputChangeHandler);
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#pointDeleteClickHandler);
   }
 
   #formSubmitHandler = (evt) => {
@@ -182,8 +186,8 @@ export default class PointEditView extends AbstractStatefulView {
       return;
     }
 
-    this.updateElement({
-      basePrice: price
+    this._setState({
+      basePrice: evt.target.value,
     });
   };
 
