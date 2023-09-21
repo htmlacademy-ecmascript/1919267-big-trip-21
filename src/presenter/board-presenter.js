@@ -9,6 +9,7 @@ import { sorting } from '../utils/sorting.js';
 
 export default class BoardPresenter {
   #pointsModel = null;
+  #offersModel = null;
   #points = [];
   #pointsBoardContainer = null;
   #pointSortComponent = null;
@@ -16,9 +17,10 @@ export default class BoardPresenter {
   #pointsListComponent = null;
   #pointPresenters = new Map();
 
-  constructor({pointsBoardContainer, pointsModel}) {
+  constructor({pointsBoardContainer, pointsModel, offersModel}) {
     this.#pointsBoardContainer = pointsBoardContainer;
     this.#pointsModel = pointsModel;
+    this.#offersModel = offersModel;
   }
 
   init() {
@@ -30,6 +32,7 @@ export default class BoardPresenter {
   #renderPoint(point) {
     const pointPresenter = new PointPresenter({
       pointsListContainer: this.#pointsListComponent.element,
+      offersModel: this.#offersModel,
       onDataChange: this.#pointChangeHandler,
       onModeChange: this.#modeChangeHandler
     });

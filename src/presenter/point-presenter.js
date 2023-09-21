@@ -8,12 +8,14 @@ export default class PointPresenter {
   #pointComponent = null;
   #pointEditComponent = null;
   #point = null;
+  #offersModel = null;
   #handleDataChange = null;
   #handleModeChange = null;
   #mode = Mode.DEFAULT;
 
-  constructor({pointsListContainer, onDataChange, onModeChange}) {
+  constructor({pointsListContainer, offersModel, onDataChange, onModeChange}) {
     this.#pointsListContainer = pointsListContainer;
+    this.#offersModel = offersModel;
     this.#handleDataChange = onDataChange;
     this.#handleModeChange = onModeChange;
   }
@@ -26,6 +28,7 @@ export default class PointPresenter {
 
     this.#pointComponent = new PointsListItemView({
       point: this.#point,
+      offers: this.#offersModel.offers,
       onArrowClick: () => {
         this.#replaceCardToForm();
         document.addEventListener('keydown', this.#escKeyDownHandler);
@@ -35,6 +38,7 @@ export default class PointPresenter {
 
     this.#pointEditComponent = new PointEditView({
       point: this.#point,
+      offers: this.#offersModel.offers,
       onFormSubmit: () => this.#getBackToCardDisplay(),
       onArrowClick: () => this.#getBackToCardDisplay()
     });
@@ -58,6 +62,7 @@ export default class PointPresenter {
 
   resetView = () => {
     if (this.#mode !== Mode.DEFAULT) {
+      this.#pointEditComponent.reset(this.#point);
       this.#replaceFormToCard();
     }
   };
