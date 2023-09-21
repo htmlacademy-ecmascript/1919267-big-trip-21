@@ -5,6 +5,14 @@ import durationPlugin from 'dayjs/plugin/duration';
 dayjs.extend(minMax);
 dayjs.extend(durationPlugin);
 
+const MSEC_IN_SEC = 1000;
+const SEC_IN_MIN = 60;
+const MIN_IN_HOUR = 60;
+const HOUR_IN_DAY = 24;
+
+const MSEC_IN_HOUR = MSEC_IN_SEC * SEC_IN_MIN * MIN_IN_HOUR;
+const MSEC_IN_DAY = MSEC_IN_HOUR * HOUR_IN_DAY;
+
 /**
  * Функция, возвращающая минимальную дату
  * @param {dayjs.ConfigType} date1
@@ -44,19 +52,18 @@ function formatDate(date, dateFormat) {
  * @returns {string}
  */
 
-function getDuration(valueFrom, valueTo){
-  const ms = dayjs(valueTo).diff(valueFrom);
-  const duration = dayjs.duration(ms);
+function getDuration(dateFrom, dateTo){
+  const diff = dayjs(dateTo).diff(dayjs(dateFrom));
 
-  if (duration.days()){
-    return duration.format('DD[d] HH[h] mm[m]');
+  if (diff >= MSEC_IN_DAY) {
+    return dayjs.duration(diff).format('DD[D] HH[H] mm[M]');
   }
-
-  if (duration.hours()){
-    return duration.format('HH[h] mm[m]');
+  if (diff >= MSEC_IN_HOUR) {
+    return dayjs.duration(diff).format('HH[H] mm[M]');
   }
-
-  return duration.format('mm[m]');
+  if (diff < MSEC_IN_HOUR) {
+    return dayjs.duration(diff).format('mm[M]');
+  }
 }
 
 

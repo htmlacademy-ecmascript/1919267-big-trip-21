@@ -1,5 +1,5 @@
+import dayjs from 'dayjs';
 import { Price, eventTypes, destinations } from '../const.js';
-import { mockOffers } from './offers.js';
 import {getMaxDate, getMinDate, getRandomArrayElement, getRandomPositiveInteger} from '../utils/common.js';
 
 class MockPoint {
@@ -10,11 +10,10 @@ class MockPoint {
     this.id = crypto.randomUUID();
     this.type = getRandomArrayElement(eventTypes);
     this.destination = getRandomArrayElement(destinations);
-    this.dateFrom = getMinDate(date1, date2);
-    this.dateTo = getMaxDate(date1, date2);
+    this.dateFrom = dayjs(getMinDate(date1, date2)).toDate();
+    this.dateTo = dayjs(getMaxDate(date1, date2)).toDate();
     this.basePrice = getRandomPositiveInteger(Price.MIN, Price.MAX);
     this.isFavorite = Boolean(getRandomPositiveInteger(0, 1));
-    this.offers = mockOffers.get(this.type);
   }
 }
 

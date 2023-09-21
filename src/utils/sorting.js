@@ -6,14 +6,9 @@ function getPointsDateDifference(pointA, pointB) {
 }
 
 function getPointsDurationDifference(eventA, eventB) {
-  const eventDurationA = getEventDuration(eventA);
-  const eventDurationB = getEventDuration(eventB);
-
-  return eventDurationB - eventDurationA;
-}
-
-function getEventDuration(event) {
-  return dayjs(event.dateTo).diff(dayjs(event.dateFrom));
+  const pointADuration = dayjs(eventA.dateTo).diff(dayjs(eventA.dateFrom));
+  const pointBDuration = dayjs(eventB.dateTo).diff(dayjs(eventB.dateFrom));
+  return pointBDuration - pointADuration;
 }
 
 function getPointsPriceDifference(pointA, pointB) {
