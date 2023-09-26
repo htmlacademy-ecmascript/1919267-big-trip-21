@@ -94,4 +94,30 @@ const availableSortType = {
 const DEFAULT_SORT_TYPE = SortType.DAY;
 const DEFAULT_FILTER_TYPE = FilterType.EVERYTHING;
 
-export {Price, eventTypes, destinations, DateFormat, BLANK_POINT, FilterType, Mode, SortType, availableSortType, DEFAULT_SORT_TYPE, DEFAULT_FILTER_TYPE};
+const UserAction = {
+  UPDATE_POINT: 'UPDATE_POINT',
+  ADD_POINT: 'ADD_POINT',
+  DELETE_POINT: 'DELETE_POINT'
+};
+
+const UpdateType = {
+  PATCH: 'PATCH',
+  MINOR: 'MINOR',
+  MAJOR: 'MAJOR'
+};
+
+export {
+  Price,
+  eventTypes,
+  destinations,
+  DateFormat,
+  BLANK_POINT,
+  FilterType,
+  Mode,
+  SortType,
+  availableSortType,
+  DEFAULT_SORT_TYPE,
+  DEFAULT_FILTER_TYPE,
+  UserAction,
+  UpdateType
+};

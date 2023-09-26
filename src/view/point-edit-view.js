@@ -172,15 +172,13 @@ export default class PointEditView extends AbstractStatefulView {
   };
 
   #dateFromChangeHandler = ([userDate]) => {
-    this.updateElement({
-      ...this._state.point,
+    this._setState({
       dateFrom: userDate,
     });
   };
 
   #dateToChangeHandler = ([userDate]) => {
-    this.updateElement({
-      ...this._state.point,
+    this._setState({
       dateTo: userDate,
     });
   };
