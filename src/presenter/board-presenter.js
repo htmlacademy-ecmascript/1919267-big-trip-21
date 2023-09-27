@@ -5,31 +5,39 @@ import PointsListEmptyView from '../view/points-list-empty-view.js';
 import PointPresenter from './point-presenter.js';
 import { SortType, DEFAULT_SORT_TYPE, availableSortType, UserAction, UpdateType } from '../const.js';
 import { sorting } from '../utils/sorting.js';
+import { filter } from '../utils/filter.js';
 
 export default class BoardPresenter {
   #points = null;
   #pointsModel = null;
+  #filterModel = null;
   #offersModel = null;
   #pointsBoardContainer = null;
   #pointSortComponent = null;
   #currentSortType = DEFAULT_SORT_TYPE;
   #pointsListComponent = null;
   #pointPresenters = new Map();
+  #emptyListComponent = null;
 
-  constructor({pointsBoardContainer, pointsModel, offersModel}) {
+  constructor({pointsBoardContainer, pointsModel, offersModel, filterModel}) {
     this.#pointsBoardContainer = pointsBoardContainer;
     this.#pointsModel = pointsModel;
     this.#offersModel = offersModel;
+    this.#filterModel = filterModel;
+
     this.#pointsModel.addObserver(this.#handleModelEvent);
+    this.#filterModel.addObserver(this.#handleModelEvent);
   }
 
   get points() {
-    return this.#pointsModel.points;
+    const filterType = this.#filterModel.filter;
+    const filteredPoints = filter[filterType](this.#pointsModel.points);
+
+    return sorting[this.#currentSortType](filteredPoints);
   }
 
   init() {
-    this.#points = [...this.#pointsModel.points];
-    this.#points = sorting[this.#currentSortType](this.#points);
+    this.#points = sorting[this.#currentSortType](this.points);
     this.#renderBoard();
   }
 
@@ -86,6 +94,7 @@ export default class BoardPresenter {
 
     remove(this.#pointSortComponent);
     remove(this.#pointsListComponent);
+    remove(this.#emptyListComponent);
 
     if(resetSortType){
       this.#currentSortType = DEFAULT_SORT_TYPE;
@@ -120,9 +129,16 @@ export default class BoardPresenter {
     render(this.#pointSortComponent, this.#pointsBoardContainer, RenderPosition.AFTERBEGIN);
   };
 
+  #renderEmptyList = () => {
+    this.#emptyListComponent = new PointsListEmptyView({
+      filterType: this.#filterModel.filter
+    });
+    render(this.#emptyListComponent, this.#pointsBoardContainer);
+  };
+
   #renderBoard = () => {
     if(!this.points.length) {
-      render(new PointsListEmptyView(), this.#pointsBoardContainer);
+      this.#renderEmptyList();
       return;
     }
 

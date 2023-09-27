@@ -10,18 +10,20 @@ import {mockPoints} from './mock/points.js';
 
 const tripMainContainer = document.querySelector('.trip-main');
 const pointsBoardContainer = document.querySelector('.trip-events');
-const filtersContainer = document.querySelector('.trip-controls__filters');
+const filterContainer = document.querySelector('.trip-controls__filters');
 const pointsModel = new PointsModel(mockPoints);
 const offersModel = new OffersModel(offers);
 const filterModel = new FilterModel();
 const eventsBoardPresenter = new BoardPresenter({
   pointsBoardContainer,
   pointsModel,
-  offersModel
+  offersModel,
+  filterModel
 });
 const filtersPresenter = new FiltersPresenter({
-  container: filtersContainer,
-  pointsModel
+  filterContainer,
+  pointsModel,
+  filterModel
 });
 
 render(new TripInfoView(), tripMainContainer, RenderPosition.AFTERBEGIN);
