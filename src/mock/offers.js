@@ -5,7 +5,7 @@ const offers = [];
 
 const generateOffer = (type) => ({
   id: crypto.randomUUID(),
-  title: `Опции ${type}`,
+  title: `${type}`,
   price: getRandomPositiveInteger(50, 500)
 });
 

@@ -1,16 +1,27 @@
-
 import Observable from '../framework/observable.js';
 
 export default class PointsModel extends Observable {
   #points = [];
+  #destinations = [];
+  #offers = [];
 
-  constructor(mockPoints) {
+  constructor(mockPoints, destinations, offers) {
     super();
     this.#points = mockPoints;
+    this.#destinations = destinations;
+    this.#offers = offers;
   }
 
   get points() {
     return this.#points;
+  }
+
+  get destinations() {
+    return this.#destinations;
+  }
+
+  get offers() {
+    return this.#offers;
   }
 
   updatePoint(updateType, update) {

@@ -3,27 +3,32 @@ import PointsListView from '../view/points-list-view.js';
 import PointSortView from '../view/point-sort-view.js';
 import PointsListEmptyView from '../view/points-list-empty-view.js';
 import PointPresenter from './point-presenter.js';
-import { SortType, DEFAULT_SORT_TYPE, availableSortType, UserAction, UpdateType } from '../const.js';
+import { SortType, DEFAULT_SORT_TYPE, availableSortType, UserAction, UpdateType, FilterType } from '../const.js';
 import { sorting } from '../utils/sorting.js';
 import { filter } from '../utils/filter.js';
+import AddPointPresenter from './add-point-presenter.js';
 
 export default class BoardPresenter {
-  #points = null;
   #pointsModel = null;
   #filterModel = null;
-  #offersModel = null;
   #pointsBoardContainer = null;
   #pointSortComponent = null;
   #currentSortType = DEFAULT_SORT_TYPE;
-  #pointsListComponent = null;
+  #pointsListComponent = new PointsListView();
   #pointPresenters = new Map();
   #emptyListComponent = null;
+  #addPointPresenter = null;
 
-  constructor({pointsBoardContainer, pointsModel, offersModel, filterModel}) {
+  constructor({pointsBoardContainer, pointsModel, filterModel, onAddPointDestroy}) {
     this.#pointsBoardContainer = pointsBoardContainer;
     this.#pointsModel = pointsModel;
-    this.#offersModel = offersModel;
     this.#filterModel = filterModel;
+
+    this.#addPointPresenter = new AddPointPresenter({
+      container: this.#pointsListComponent.element,
+      onDataChange: this.#handleViewAction,
+      onDestroy: onAddPointDestroy
+    });
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
@@ -36,8 +41,15 @@ export default class BoardPresenter {
     return sorting[this.#currentSortType](filteredPoints);
   }
 
+  get destinations() {
+    return this.#pointsModel.destinations;
+  }
+
+  get offers() {
+    return this.#pointsModel.offers;
+  }
+
   init() {
-    this.#points = sorting[this.#currentSortType](this.points);
     this.#renderBoard();
   }
 
@@ -58,7 +70,7 @@ export default class BoardPresenter {
   #handleModelEvent = (updateType, data) => {
     switch(updateType) {
       case UpdateType.PATCH:
-        this.#pointPresenters.get(data.id).init(data);
+        this.#pointPresenters.get(data.id).init(data, this.destinations, this.offers);
         break;
       case UpdateType.MINOR:
         this.#clearBoard();
@@ -71,14 +83,23 @@ export default class BoardPresenter {
     }
   };
 
+  createPoint() {
+    this.#currentSortType = DEFAULT_SORT_TYPE;
+    this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
+    this.#addPointPresenter.init(this.destinations, this.offers);
+
+    if(this.#emptyListComponent !== null) {
+      remove(this.#emptyListComponent);
+    }
+  }
+
   #renderPoint(point) {
     const pointPresenter = new PointPresenter({
       pointsListContainer: this.#pointsListComponent.element,
-      offersModel: this.#offersModel,
       onDataChange: this.#handleViewAction,
       onModeChange: this.#modeChangeHandler
     });
-    pointPresenter.init(point);
+    pointPresenter.init(point, this.destinations, this.offers);
     this.#pointPresenters.set(point.id, pointPresenter);
   }
 
@@ -89,11 +110,10 @@ export default class BoardPresenter {
   };
 
   #clearBoard = ({resetSortType = false} = {}) => {
+    this.#addPointPresenter.destroy();
     this.#pointPresenters.forEach((presenter) => presenter.destroy());
     this.#pointPresenters.clear();
 
-    remove(this.#pointSortComponent);
-    remove(this.#pointsListComponent);
     remove(this.#emptyListComponent);
 
     if(resetSortType){
@@ -102,7 +122,6 @@ export default class BoardPresenter {
   };
 
   #renderPointContainer = () => {
-    this.#pointsListComponent = new PointsListView();
     render(this.#pointsListComponent, this.#pointsBoardContainer);
   };
 
@@ -160,6 +179,7 @@ export default class BoardPresenter {
   };
 
   #modeChangeHandler = () => {
+    this.#addPointPresenter.destroy();
     this.#pointPresenters.forEach((presenter) => presenter.resetView());
   };
 }

@@ -9,6 +9,8 @@ export default class PointPresenter {
   #pointComponent = null;
   #pointEditComponent = null;
   #point = null;
+  #destionations = [];
+  #offers = [];
   #offersModel = null;
   #handleDataChange = null;
   #handleModeChange = null;
@@ -21,15 +23,18 @@ export default class PointPresenter {
     this.#handleModeChange = onModeChange;
   }
 
-  init(point) {
+  init(point, destinations, offers) {
     this.#point = point;
+    this.#destionations = destinations;
+    this.#offers = offers;
 
     const prevPointComponent = this.#pointComponent;
     const prevPointEditComponent = this.#pointEditComponent;
 
     this.#pointComponent = new PointsListItemView({
       point: this.#point,
-      offers: this.#offersModel.offers,
+      destinations: this.#destionations,
+      offers: this.#offers,
       onDataChange: this.#handleDataChange,
       onArrowClick: () => {
         this.#replaceCardToForm();
@@ -40,7 +45,8 @@ export default class PointPresenter {
 
     this.#pointEditComponent = new PointEditView({
       point: this.#point,
-      offers: this.#offersModel.offers,
+      destinations: this.#destionations,
+      offers: this.#offers,
       onFormSubmit: this.#handleFormSubmit,
       onArrowClick: this.#handleFormCollapse,
       onDeleteButtonClick: this.#handleDeleteClick,

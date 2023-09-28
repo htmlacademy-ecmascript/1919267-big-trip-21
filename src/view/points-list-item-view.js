@@ -10,8 +10,12 @@ function createOfferTemplate(offer) {
   </li>`;
 }
 
-function createPointsListItemTemplate(point, offers) {
+function createPointsListItemTemplate(point, destinations, offers) {
   const {type, destination, basePrice, dateFrom, dateTo, isFavorite} = point;
+
+  const pointDestination = destinations.find((item) => item.id === destination.id);
+
+  const pointOffers = offers.find((item) => item.type === type);
   return (
     `<li class="trip-events__item">
       <div class="event">
@@ -19,7 +23,7 @@ function createPointsListItemTemplate(point, offers) {
         <div class="event__type">
           <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
         </div>
-        <h3 class="event__title">${type} ${destination.name}</h3>
+        <h3 class="event__title">${type} ${pointDestination.name}</h3>
         <div class="event__schedule">
           <p class="event__time">
             <time class="event__start-time" datetime=${dateFrom}>${formatDate(dateFrom, DateFormat.TIME)}</time>
@@ -33,7 +37,7 @@ function createPointsListItemTemplate(point, offers) {
         </p>
         <h4 class="visually-hidden">Offers:</h4>
         <ul class="event__selected-offers">
-          ${offers.reduce((acc, offer) => acc + createOfferTemplate(offer), [])}
+          ${pointOffers.offers.reduce((acc, offer) => acc + createOfferTemplate(offer), [])}
         </ul>
         <button class="event__favorite-btn ${isFavorite ? 'event__favorite-btn--active' : 'event__favorite-btn'}" type="button">
           <span class="visually-hidden">Add to favorite</span>
@@ -51,13 +55,15 @@ function createPointsListItemTemplate(point, offers) {
 
 export default class PointsListItemView extends AbstractView {
   #point = null;
+  #destinations = [];
   #offers = [];
   #handleArrowClick = null;
   #handleFavouriteClick = null;
 
-  constructor ({point, offers, onArrowClick, onFavoriteClick}) {
+  constructor ({point, destinations, offers, onArrowClick, onFavoriteClick}) {
     super();
     this.#point = point;
+    this.#destinations = destinations;
     this.#offers = offers;
     this.#handleArrowClick = onArrowClick;
     this.#handleFavouriteClick = onFavoriteClick;
@@ -67,7 +73,7 @@ export default class PointsListItemView extends AbstractView {
   }
 
   get template() {
-    return createPointsListItemTemplate(this.#point, this.#offers);
+    return createPointsListItemTemplate(this.#point, this.#destinations, this.#offers);
   }
 
   #arrowClickHandler = (evt) => {
