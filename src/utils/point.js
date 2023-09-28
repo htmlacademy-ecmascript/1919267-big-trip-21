@@ -12,4 +12,6 @@ function isPointPast(point) {
   return dayjs().isAfter(point.dateTo);
 }
 
-export {isPointFuture, isPointPast, isPointPresent};
+const areDatesEqual = (dateA, dateB) => (dateA === null && dateB === null) || dayjs(dateA).isSame(dateB);
+
+export {isPointFuture, isPointPast, isPointPresent, areDatesEqual};

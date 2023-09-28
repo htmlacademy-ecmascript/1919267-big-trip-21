@@ -1,5 +1,6 @@
 import dayjs from 'dayjs';
-import { Price, eventTypes, destinations } from '../const.js';
+import { destinations } from './destinations.js';
+import { Price, eventTypes } from '../const.js';
 import {getMaxDate, getMinDate, getRandomArrayElement, getRandomPositiveInteger} from '../utils/common.js';
 
 class MockPoint {

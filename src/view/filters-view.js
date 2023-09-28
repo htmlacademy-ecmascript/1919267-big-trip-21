@@ -1,6 +1,7 @@
 import AbstractView from '../framework/view/abstract-view.js';
 
-function createFilterItemTemplate({type}) {
+function createFilterItemTemplate(filter, currentFilter) {
+  const {type} = filter;
   return `<div class="trip-filters__filter">
   <input
     id="filter-${type}"
@@ -8,15 +9,15 @@ function createFilterItemTemplate({type}) {
     type="radio"
     name="trip-filter"
     value=${type}
-    data-filter-type="${type}"
+    ${type === currentFilter ? 'checked' : ''}
   />
   <label class="trip-filters__filter-label" for="filter-${type}">${type}</label>
 </div>`;
 }
 
-function createFiltersFormTemplate(filters) {
+function createFiltersFormTemplate(filters, currentFilter) {
   return `<form class="trip-filters" action="#" method="get">
-  ${filters.length && filters.reduce((acc, item) => acc + createFilterItemTemplate(item), [])}
+  ${filters.map((item) => createFilterItemTemplate(item, currentFilter)).join('')}
 
     <button class="visually-hidden" type="submit">Accept filter</button>
     </form>`;
@@ -24,25 +25,26 @@ function createFiltersFormTemplate(filters) {
 
 export default class FiltersView extends AbstractView {
   #filters = [];
+  #currentFilter = null;
   #handleFilterTypeChange = null;
 
-  constructor({filters, onFilterTypeChange}) {
+  constructor({filters, currentFilterType, onFilterTypeChange}) {
     super();
     this.#filters = filters;
+    this.#currentFilter = currentFilterType;
     this.#handleFilterTypeChange = onFilterTypeChange;
 
-    this.element.addEventListener('click', this.#sortTypeChangeHandler);
+    this.element.addEventListener('change', this.#filterTypeChangeHandler);
   }
 
   get template() {
-    return createFiltersFormTemplate(this.#filters);
+    return createFiltersFormTemplate(this.#filters, this.#currentFilter);
   }
 
-  #sortTypeChangeHandler = (evt) => {
+  #filterTypeChangeHandler = (evt) => {
     if (evt.target.tagName !== 'INPUT') {
       return;
     }
-
-    this.#handleFilterTypeChange(evt.target.dataset.filterType);
+    this.#handleFilterTypeChange(evt.target.value);
   };
 }

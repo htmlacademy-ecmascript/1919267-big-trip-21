@@ -78,8 +78,4 @@ function getRandomPositiveInteger(a, b) {
   return Math.floor(result);
 }
 
-function updateItem(items, update) {
-  return items.map((item) => item.id === update.id ? update : item);
-}
-
-export {getRandomArrayElement, getRandomPositiveInteger, updateItem, getMinDate, getMaxDate, formatDate, getDuration};
+export {getRandomArrayElement, getRandomPositiveInteger, getMinDate, getMaxDate, formatDate, getDuration};
