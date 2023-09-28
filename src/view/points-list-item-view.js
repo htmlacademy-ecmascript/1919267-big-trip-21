@@ -1,12 +1,13 @@
+import he from 'he';
 import { DateFormat } from '../const.js';
 import AbstractView from '../framework/view/abstract-view.js';
 import { formatDate, getDuration } from '../utils/common.js';
 
 function createOfferTemplate(offer) {
   return `<li class="event__offer">
-    <span class="event__offer-title">${offer.title}</span>
+    <span class="event__offer-title">${he.encode(offer.title)}</span>
     &plus;&euro;&nbsp;
-    <span class="event__offer-price">${offer.price}</span>
+    <span class="event__offer-price">${he.encode(offer.price)}</span>
   </li>`;
 }
 
@@ -23,7 +24,7 @@ function createPointsListItemTemplate(point, destinations, offers) {
         <div class="event__type">
           <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
         </div>
-        <h3 class="event__title">${type} ${pointDestination.name}</h3>
+        <h3 class="event__title">${he.encode(type)} ${he.encode(pointDestination.name)}</h3>
         <div class="event__schedule">
           <p class="event__time">
             <time class="event__start-time" datetime=${dateFrom}>${formatDate(dateFrom, DateFormat.TIME)}</time>
@@ -33,11 +34,11 @@ function createPointsListItemTemplate(point, destinations, offers) {
           <p class="event__duration">${getDuration(dateFrom, dateTo)}</p>
         </div>
         <p class="event__price">
-          &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
+          &euro;&nbsp;<span class="event__price-value">${he.encode(basePrice)}</span>
         </p>
         <h4 class="visually-hidden">Offers:</h4>
         <ul class="event__selected-offers">
-          ${pointOffers.offers.reduce((acc, offer) => acc + createOfferTemplate(offer), [])}
+          ${pointOffers.offers.reduce((acc, offer) => acc + createOfferTemplate(offer), '')}
         </ul>
         <button class="event__favorite-btn ${isFavorite ? 'event__favorite-btn--active' : 'event__favorite-btn'}" type="button">
           <span class="visually-hidden">Add to favorite</span>

@@ -1,7 +1,8 @@
+import flatpickr from 'flatpickr';
+import he from 'he';
 import { BLANK_POINT, DateFormat, eventTypes } from '../const.js';
 import { formatDate } from '../utils/common.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-import flatpickr from 'flatpickr';
 
 import 'flatpickr/dist/flatpickr.min.css';
 
@@ -13,7 +14,7 @@ function createEventTemplate(eventType) {
 }
 
 function createDestinationsListTemplate(destinations) {
-  return destinations.map((destination) => `<option value="${destination.name}"></option>`).join('');
+  return destinations.map((destination) => `<option value="${he.encode(destination.name)}"></option>`).join('');
 }
 
 function createPointEditTemplate(point, offers, destinations) {
@@ -25,7 +26,7 @@ function createPointEditTemplate(point, offers, destinations) {
   function createDestinationPhotosTemplate() {
     if (pointDestination?.photos.length > 0) {
       const photos = pointDestination.photos.map((photo) =>
-        `<img class="event__photo" src="${photo}" alt="${pointDestination.name}">`
+        `<img class="event__photo" src="${he.encode(photo)}" alt="${he.encode(pointDestination.name)}">`
       ).join('');
 
       return `<div class="event__photos-container">
@@ -40,7 +41,7 @@ function createPointEditTemplate(point, offers, destinations) {
     if (destination !== '' && typeof pointDestination !== 'undefined' && pointDestination.description !== '') {
       return `<section class="event__section  event__section--destination">
         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-        <p class="event__destination-description">${pointDestination?.description}</p>
+        <p class="event__destination-description">${he.encode(pointDestination.description)}</p>
         ${destinationPhotosTemplate ? destinationPhotosTemplate : ''}
       </section>`;
     }
@@ -54,11 +55,11 @@ function createPointEditTemplate(point, offers, destinations) {
   const createTypeOffersTemplate = () => pointOffers.offers.map((offer) => {
     const isChecked = offers.includes(offer.id) ? 'checked' : '';
     return `<div class="event__offer-selector">
-      <input class="event__offer-checkbox  visually-hidden" data-id="${offer.id}" id="event-offer-${offer.id}" type="checkbox" name="event-offer-${offer.id}" ${isChecked}>
-      <label class="event__offer-label" for="event-offer-${offer.id}">
-        <span class="event__offer-title">${offer.title}</span>
+      <input class="event__offer-checkbox  visually-hidden" data-id="${he.encode(offer.id)}" id="event-offer-${he.encode(offer.id)}" type="checkbox" name="event-offer-${he.encode(offer.id)}" ${isChecked}>
+      <label class="event__offer-label" for="event-offer-${he.encode(offer.id)}">
+        <span class="event__offer-title">${he.encode(offer.title)}</span>
         &plus;&euro;&nbsp;
-        <span class="event__offer-price">${offer.price}</span>
+        <span class="event__offer-price">${he.encode(offer.price)}</span>
       </label>
     </div>`;
   }).join('');
@@ -85,7 +86,7 @@ function createPointEditTemplate(point, offers, destinations) {
                   <div class="event__type-wrapper">
                     <label class="event__type  event__type-btn" for="event-type-toggle-1">
                       <span class="visually-hidden">Choose event type</span>
-                      <img class="event__type-icon" width="17" height="17" src="img/icons/${type}.png" alt="Event type icon">
+                      <img class="event__type-icon" width="17" height="17" src="img/icons/${he.encode(type)}.png" alt="Event type icon">
                     </label>
                     <input class="event__type-toggle  visually-hidden" id="event-type-toggle-1" type="checkbox">
 
@@ -101,7 +102,7 @@ function createPointEditTemplate(point, offers, destinations) {
                     <label class="event__label  event__type-output" for="event-destination-1">
                       ${type}
                     </label>
-                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${pointDestination ? pointDestination.name : ''}" list="destination-list-1">
+                    <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${pointDestination ? he.encode(pointDestination.name) : ''}" list="destination-list-1">
                     <datalist id="destination-list-1">
                       ${createDestinationsListTemplate(destinations)}
                     </datalist>
@@ -120,7 +121,7 @@ function createPointEditTemplate(point, offers, destinations) {
                       <span class="visually-hidden">Price</span>
                       &euro;
                     </label>
-                    <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value=${basePrice}>
+                    <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value=${he.encode(basePrice)}>
                   </div>
 
                   <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
