@@ -7,7 +7,7 @@ function createOfferTemplate(offer) {
   return `<li class="event__offer">
     <span class="event__offer-title">${he.encode(offer.title)}</span>
     &plus;&euro;&nbsp;
-    <span class="event__offer-price">${he.encode(offer.price)}</span>
+    <span class="event__offer-price">${he.encode(String(offer.price))}</span>
   </li>`;
 }
 
@@ -34,7 +34,7 @@ function createPointsListItemTemplate(point, destinations, offers) {
           <p class="event__duration">${getDuration(dateFrom, dateTo)}</p>
         </div>
         <p class="event__price">
-          &euro;&nbsp;<span class="event__price-value">${he.encode(basePrice)}</span>
+          &euro;&nbsp;<span class="event__price-value">${he.encode(String(basePrice))}</span>
         </p>
         <h4 class="visually-hidden">Offers:</h4>
         <ul class="event__selected-offers">
